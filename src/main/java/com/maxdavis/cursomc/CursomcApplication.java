@@ -1,7 +1,6 @@
 package com.maxdavis.cursomc;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import com.maxdavis.cursomc.domain.Cidade;
 import com.maxdavis.cursomc.domain.Cliente;
 import com.maxdavis.cursomc.domain.Endereco;
 import com.maxdavis.cursomc.domain.Estado;
+import com.maxdavis.cursomc.domain.ItemPedido;
 import com.maxdavis.cursomc.domain.Pagamento;
 import com.maxdavis.cursomc.domain.PagamentoComBoleto;
 import com.maxdavis.cursomc.domain.PagamentoComCartao;
@@ -26,6 +26,7 @@ import com.maxdavis.cursomc.repositories.CidadeRepository;
 import com.maxdavis.cursomc.repositories.ClienteRepository;
 import com.maxdavis.cursomc.repositories.EnderecoRepository;
 import com.maxdavis.cursomc.repositories.EstadoRepository;
+import com.maxdavis.cursomc.repositories.ItemPedidoRepository;
 import com.maxdavis.cursomc.repositories.PagamentoRepository;
 import com.maxdavis.cursomc.repositories.PedidoRepository;
 import com.maxdavis.cursomc.repositories.ProdutoRepository;
@@ -37,7 +38,7 @@ public class CursomcApplication implements CommandLineRunner {
 	private CategoriaRepository categoriaRepository;
 
 	@Autowired
-	private ProdutoRepository produtoRepository;
+	private ProdutoRepository produtoRepository;	
 
 	@Autowired
 	private EstadoRepository estadoRepository;
@@ -56,6 +57,9 @@ public class CursomcApplication implements CommandLineRunner {
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -125,6 +129,20 @@ public class CursomcApplication implements CommandLineRunner {
 		pedidoRepository.save(Arrays.asList(ped1,ped2));
 		pagamentoRepository.save(Arrays.asList(pagto1, pagto2));
 		
+		ItemPedido item1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		
+		ItemPedido item2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+
+		ItemPedido item3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(item1, item2));
+		ped2.getItens().addAll(Arrays.asList(item3));
+		
+		p1.getItens().addAll(Arrays.asList(item1));
+		p2.getItens().addAll(Arrays.asList(item3));
+		p3.getItens().addAll(Arrays.asList(item1));
+		
+		itemPedidoRepository.save(Arrays.asList(item1, item2, item3));
 
 	}
 
