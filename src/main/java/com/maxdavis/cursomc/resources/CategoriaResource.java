@@ -1,6 +1,8 @@
 package com.maxdavis.cursomc.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.maxdavis.cursomc.domain.Categoria;
+import com.maxdavis.cursomc.dto.CategoriaDTO;
 import com.maxdavis.cursomc.services.CategoriaService;
 
 import javassist.tools.rmi.ObjectNotFoundException;
@@ -44,6 +47,7 @@ public class CategoriaResource {
 		obj = categoriaService.update(obj);
 		return ResponseEntity.noContent().build();
 	}
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) throws ObjectNotFoundException {
 		categoriaService.delete(id);
@@ -51,5 +55,13 @@ public class CategoriaResource {
 		
 	}
 	
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> findAll() throws ObjectNotFoundException {
+		List<Categoria> list = categoriaService.findAll();
+		List<CategoriaDTO> listDto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
+
+	}
 	
 }

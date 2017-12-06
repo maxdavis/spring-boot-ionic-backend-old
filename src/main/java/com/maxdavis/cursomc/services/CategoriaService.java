@@ -1,5 +1,7 @@
 package com.maxdavis.cursomc.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 
-	public Categoria find(Integer id) throws ObjectNotFoundException{
+	public Categoria find(Integer id) throws ObjectNotFoundException {
 		Categoria categoria = categoriaRepository.findOne(id);
 
 		if (categoria == null) {
@@ -38,15 +40,19 @@ public class CategoriaService {
 		return categoriaRepository.save(obj);
 
 	}
-	
-	public void delete(Integer id) throws ObjectNotFoundException{
+
+	public void delete(Integer id) throws ObjectNotFoundException {
 		find(id);
 		try {
 			categoriaRepository.delete(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível excluir uma categoria com dependência.");
-					
+
 		}
+	}
+
+	public List<Categoria> findAll() {
+		return categoriaRepository.findAll();
 	}
 
 }
