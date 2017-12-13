@@ -2,9 +2,11 @@ package com.maxdavis.cursomc.domain;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.maxdavis.cursomc.domain.Enums.EstadoPagamento;
 
 @Entity
+@JsonTypeName("pagamentoComCartao")
 public class PagamentoComCartao extends Pagamento {
 
 	private static final long serialVersionUID = 1L;
@@ -16,7 +18,6 @@ public class PagamentoComCartao extends Pagamento {
 
 	public PagamentoComCartao(Integer id, EstadoPagamento estado, Pedido pedido, Integer numeroDeParcelas) {
 		super(id, estado, pedido);
-		// TODO Auto-generated constructor stub
 		this.numeroDeParcelas = numeroDeParcelas;
 	}
 
