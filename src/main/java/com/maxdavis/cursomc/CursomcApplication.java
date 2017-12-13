@@ -88,26 +88,26 @@ public class CursomcApplication implements CommandLineRunner {
 		Produto p10 = new Produto(null, "Pendente", 180.00);
 		Produto p11 = new Produto(null, "Shampo0", 90.00);
 
-		cat1.setProdutos(Arrays.asList(p1, p2, p3));
-		cat2.setProdutos(Arrays.asList(p2,p4));
-		cat3.setProdutos(Arrays.asList(p5,p6));
-		cat4.setProdutos(Arrays.asList(p1,p2,p3,p7));
-		cat5.setProdutos(Arrays.asList(p8));
-		cat6.setProdutos(Arrays.asList(p9,p10));
-		cat7.setProdutos(Arrays.asList(p11));
+		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
+		cat2.getProdutos().addAll(Arrays.asList(p2,p4));
+		cat3.getProdutos().addAll(Arrays.asList(p5,p6));
+		cat4.getProdutos().addAll(Arrays.asList(p1,p2,p3,p7));
+		cat5.getProdutos().addAll(Arrays.asList(p8));
+		cat6.getProdutos().addAll(Arrays.asList(p9,p10));
+		cat7.getProdutos().addAll(Arrays.asList(p11));
 		
 
-		p1.setCategorias(Arrays.asList(cat1, cat4));
-		p2.setCategorias(Arrays.asList(cat1, cat2, cat5));
-		p3.setCategorias(Arrays.asList(cat1,cat4));
-		p4.setCategorias(Arrays.asList(cat2));
-		p5.setCategorias(Arrays.asList(cat3));
-		p6.setCategorias(Arrays.asList(cat3));
-		p7.setCategorias(Arrays.asList(cat4));
-		p8.setCategorias(Arrays.asList(cat5));
-		p9.setCategorias(Arrays.asList(cat6));
-		p10.setCategorias(Arrays.asList(cat6));
-		p11.setCategorias(Arrays.asList(cat7));
+		p1.getCategorias().addAll(Arrays.asList(cat1, cat4));
+		p2.getCategorias().addAll(Arrays.asList(cat1, cat2, cat5));
+		p3.getCategorias().addAll(Arrays.asList(cat1,cat4));
+		p4.getCategorias().addAll(Arrays.asList(cat2));
+		p5.getCategorias().addAll(Arrays.asList(cat3));
+		p6.getCategorias().addAll(Arrays.asList(cat3));
+		p7.getCategorias().addAll(Arrays.asList(cat4));
+		p8.getCategorias().addAll(Arrays.asList(cat5));
+		p9.getCategorias().addAll(Arrays.asList(cat6));
+		p10.getCategorias().addAll(Arrays.asList(cat6));
+		p11.getCategorias().addAll(Arrays.asList(cat7));
 
 		categoriaRepository.save(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 

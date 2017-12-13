@@ -118,18 +118,12 @@ public class Cliente implements Serializable {
 		this.telefones = telefones;
 	}
 
-	
-	
 	public List<Pedido> getPedidos() {
 		return pedidos;
 	}
 
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
-	}
-
-	public void setTipoCliente(Integer tipoCliente) {
-		this.tipoCliente = tipoCliente;
 	}
 
 	@Override
