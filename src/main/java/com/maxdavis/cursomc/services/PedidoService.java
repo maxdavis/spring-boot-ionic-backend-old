@@ -9,6 +9,7 @@ import com.maxdavis.cursomc.domain.ItemPedido;
 import com.maxdavis.cursomc.domain.PagamentoComBoleto;
 import com.maxdavis.cursomc.domain.Pedido;
 import com.maxdavis.cursomc.domain.Enums.EstadoPagamento;
+import com.maxdavis.cursomc.repositories.ClienteRepository;
 import com.maxdavis.cursomc.repositories.ItemPedidoRepository;
 import com.maxdavis.cursomc.repositories.PagamentoRepository;
 import com.maxdavis.cursomc.repositories.PedidoRepository;
@@ -33,6 +34,9 @@ public class PedidoService {
 	
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
 
 	public Pedido buscar(Integer id) throws ObjectNotFoundException {
 		Pedido pedido = pedidoRepository.findOne(id);
@@ -48,6 +52,7 @@ public class PedidoService {
 	public Pedido insert(Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
+		obj.setCliente(clienteRepository.findOne(obj.getCliente().getId()));
 		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		obj.getPagamento().setPedido(obj);
 		if(obj.getPagamento() instanceof PagamentoComBoleto ) {
@@ -60,12 +65,13 @@ public class PedidoService {
 		
 		for (ItemPedido item : obj.getItens()) {
 			item.setDesconto(0.0);
-			item.setPreco(produtoRepository.findOne(item.getProduto().getId()).getPreco());
+			item.setProduto(produtoRepository.findOne(item.getProduto().getId()));
+			item.setPreco(item.getProduto().getPreco());
 		    item.setPedido(obj);
 		}
 		
 		itemPedidoRepository.save(obj.getItens());
-		
+		System.out.println(obj);
 		return obj;
 	}
 
