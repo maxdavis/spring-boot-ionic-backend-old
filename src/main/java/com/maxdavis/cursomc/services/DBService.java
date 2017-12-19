@@ -20,6 +20,7 @@ import com.maxdavis.cursomc.domain.PagamentoComCartao;
 import com.maxdavis.cursomc.domain.Pedido;
 import com.maxdavis.cursomc.domain.Produto;
 import com.maxdavis.cursomc.domain.Enums.EstadoPagamento;
+import com.maxdavis.cursomc.domain.Enums.Perfil;
 import com.maxdavis.cursomc.domain.Enums.TipoCliente;
 import com.maxdavis.cursomc.repositories.CategoriaRepository;
 import com.maxdavis.cursomc.repositories.CidadeRepository;
@@ -129,14 +130,24 @@ public class DBService {
 		Cliente cli1 = new Cliente(null, "Maria Silva", "maxdavisdesign@gmail.com", "09898798788", TipoCliente.PESSOAFISICA, bCryptPassword.encode("123"));
 		cli1.getTelefones().addAll(Arrays.asList("83998889090", "83988096666"));
 
+		
+		Cliente cli2 = new Cliente(null, "Ana Costa", "onfaces@gmail.com", "61473517885", TipoCliente.PESSOAFISICA, bCryptPassword.encode("1234"));
+		cli2.getTelefones().addAll(Arrays.asList("83999898877", "83987770998"));
+		cli2.addPerfil(Perfil.ADMIN);
+		
+		
 		Endereco end1 = new Endereco(null, "Av. Epitacio Pessoa", "90", "Ed.Monte Really, principal ", "Tambauzinho",
 				"58098-090", cli1, c1);
-		Endereco end2 = new Endereco(null, "Rua Carneiro da Cunha", "1001", "", "Torre", "58000-088", cli1, c2);
+		Endereco end2 = new Endereco(null, "Rua Carneiro da Cunha", "1001", null, "Torre", "58000-088", cli1, c2);
+		
+		Endereco end3 = new Endereco(null, "Rua Eucalipto", "87", null, "Anatólia", "58089-009", cli2, c2);
+
 
 		cli1.getEnderecos().addAll(Arrays.asList(end1, end2));
+		cli2.getEnderecos().addAll(Arrays.asList(end3));
 
-		clienteRepository.save(Arrays.asList(cli1));
-		enderecoRepository.save(Arrays.asList(end1, end2));
+		clienteRepository.save(Arrays.asList(cli1, cli2));
+		enderecoRepository.save(Arrays.asList(end1, end2, end3));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
