@@ -8,54 +8,52 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.maxdavis.cursomc.services.validation.ClienteInsert;
 
-@ClienteInsert	
+@ClienteInsert
 public class ClienteNewDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@NotEmpty(message="Campo Obrigatório")
-	@Length(min=5, max=120, message="O tamanho deve ser entre 5 à 80 caracteres")
+	@NotEmpty(message = "Campo Obrigatório")
+	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 à 80 caracteres")
 	private String nome;
-	
-	@NotEmpty(message="Campo Obrigatório")
-	@Email(message="Email inválido")
+
+	@NotEmpty(message = "Campo Obrigatório")
+	@Email(message = "Email inválido")
 	private String email;
 
-	@NotEmpty(message="Campo Obrigatório")
+	@NotEmpty(message = "Campo Obrigatório")
 	private String cpfOuCnpj;
-	
+
 	private Integer tipoCliente;
-	
 
-	@NotEmpty(message="Campo Obrigatório")
+	@NotEmpty(message = "Campo Obrigatório")
+	private String senha;
+
+	@NotEmpty(message = "Campo Obrigatório")
 	private String logradouro;
-	
 
-	@NotEmpty(message="Campo Obrigatório")
+	@NotEmpty(message = "Campo Obrigatório")
 	private String numero;
-	
+
 	private String complemento;
-	
+
 	private String bairro;
-	
 
-	@NotEmpty(message="Campo Obrigatório")
+	@NotEmpty(message = "Campo Obrigatório")
 	private String cep;
-	
 
-	@NotEmpty(message="Campo Obrigatório")
+	@NotEmpty(message = "Campo Obrigatório")
 	private String telefone1;
-	
+
 	private String telefone2;
-	
+
 	private String telefone3;
-	
+
 	private Integer cidadeId;
 
 	public ClienteNewDTO() {
-		
-	}
 
+	}
 
 	public String getNome() {
 		return nome;
@@ -87,6 +85,14 @@ public class ClienteNewDTO implements Serializable {
 
 	public void setTipoCliente(Integer tipoCliente) {
 		this.tipoCliente = tipoCliente;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public String getLogradouro() {
@@ -160,6 +166,5 @@ public class ClienteNewDTO implements Serializable {
 	public void setCidadeId(Integer cidadeId) {
 		this.cidadeId = cidadeId;
 	}
-	
-	
+
 }
