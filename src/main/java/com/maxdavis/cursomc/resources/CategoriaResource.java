@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,32 +38,34 @@ public class CategoriaResource {
 		return ResponseEntity.ok().body(categoria);
 
 	}
-	
-	@RequestMapping(method=RequestMethod.POST)
+
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto) {
 		Categoria obj = categoriaService.fromDTO(objDto);
 		obj = categoriaService.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId())
-				.toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
-	@RequestMapping(value = "/{id}",method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id) throws ObjectNotFoundException {
+
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id)
+			throws ObjectNotFoundException {
 		Categoria obj = categoriaService.fromDTO(objDto);
 		obj.setId(id);
 		obj = categoriaService.update(obj);
 		return ResponseEntity.noContent().build();
 	}
-	
+
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) throws ObjectNotFoundException {
 		categoriaService.delete(id);
 		return ResponseEntity.noContent().build();
-		
+
 	}
-	
-	
+
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<CategoriaDTO>> findAll() throws ObjectNotFoundException {
 		List<Categoria> list = categoriaService.findAll();
@@ -70,18 +73,16 @@ public class CategoriaResource {
 		return ResponseEntity.ok().body(listDto);
 
 	}
-	
-	@RequestMapping(value = "/page",method = RequestMethod.GET)
-	public ResponseEntity<Page<CategoriaDTO>> findAll(
-			     @RequestParam(value="page", defaultValue="0") Integer page, 
-			     @RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
-			     @RequestParam(value="orderBy", defaultValue="nome") String orderBy, 
-			     @RequestParam(value="direction", defaultValue="ASC") String direction) 
-			   throws ObjectNotFoundException {
+
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
+	public ResponseEntity<Page<CategoriaDTO>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction) throws ObjectNotFoundException {
 		Page<Categoria> list = categoriaService.findPage(page, linesPerPage, orderBy, direction);
 		Page<CategoriaDTO> listDto = list.map(obj -> new CategoriaDTO(obj));
 		return ResponseEntity.ok().body(listDto);
 
 	}
-	
+
 }
