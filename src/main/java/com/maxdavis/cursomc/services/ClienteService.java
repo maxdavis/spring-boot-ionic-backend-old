@@ -13,19 +13,22 @@ import org.springframework.stereotype.Service;
 import com.maxdavis.cursomc.domain.Cidade;
 import com.maxdavis.cursomc.domain.Cliente;
 import com.maxdavis.cursomc.domain.Endereco;
+import com.maxdavis.cursomc.domain.Enums.Perfil;
 import com.maxdavis.cursomc.domain.Enums.TipoCliente;
 import com.maxdavis.cursomc.dto.ClienteDTO;
 import com.maxdavis.cursomc.dto.ClienteNewDTO;
 import com.maxdavis.cursomc.repositories.CidadeRepository;
 import com.maxdavis.cursomc.repositories.ClienteRepository;
 import com.maxdavis.cursomc.repositories.EnderecoRepository;
+import com.maxdavis.cursomc.security.UserSpringSecurity;
+import com.maxdavis.cursomc.services.exceptions.AuthorizationException;
 import com.maxdavis.cursomc.services.exceptions.DataIntegrityException;
 
 import javassist.tools.rmi.ObjectNotFoundException;
 
 @Service
 public class ClienteService {
-	
+
 	@Autowired
 	private BCryptPasswordEncoder bCryptPassword;
 
@@ -39,6 +42,12 @@ public class ClienteService {
 	private EnderecoRepository enderecoRepository;
 
 	public Cliente find(Integer id) throws ObjectNotFoundException {
+
+		UserSpringSecurity user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
 		Cliente cliente = clienteRepository.findOne(id);
 
 		if (cliente == null) {
